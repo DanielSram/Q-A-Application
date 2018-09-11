@@ -6,6 +6,7 @@ import cz.cd.bootcamp.qa.repository.QARepository;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
@@ -47,11 +48,10 @@ public class QAProducer {
             return;
         }
 
-        final QA entity = QA.builder()
-                .category(record[0])
-                .question(record[1])
-                .answer(record[2])
-                .build();
+        final QA entity = new QA();
+        entity.setCategory(StringUtils.capitalize(record[0].toLowerCase()));
+        entity.setQuestion(record[1]);
+        entity.setAnswer(record[2]);
 
         if (!entity.isValid()) {
             log.warn("Excluding invalid entity {}.", entity);
